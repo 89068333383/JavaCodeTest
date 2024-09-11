@@ -1,26 +1,26 @@
 package org.example.javacodetest.model;
 
-import jakarta.persistence.*;
-
-import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "wallet")
 public class Wallet {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "uuid", nullable = false)
-    private UUID id;
+    @Column(name = "uuid", nullable = false, length = Integer.MAX_VALUE)
+    private String uuid;
 
     @Column(name = "amount")
     private Integer amount;
 
-    public UUID getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Integer getAmount() {
@@ -31,10 +31,9 @@ public class Wallet {
         this.amount = amount;
     }
 
-/*
- TODO [Reverse Engineering] create field to map the 'operationtype' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @Column(name = "operationtype", columnDefinition = "operationtypeclass")
-    private Object operationtype;
-*/
+    @Override
+    public String toString() {
+        return  "Счет='" + uuid + '\'' +
+                ", amount=" + amount;
+    }
 }

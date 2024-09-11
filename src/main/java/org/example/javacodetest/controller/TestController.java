@@ -24,7 +24,11 @@ public class TestController {
 
     @GetMapping("/{WALLET_UUID}")
     public ResponseEntity<String> getWallet(@PathVariable String WALLET_UUID) {
-//        return new ResponseEntity<>(testService.getWallets(UUID.fromString(WALLET_UUID)).toString(), HttpStatus.OK);
-        return new ResponseEntity<>(WALLET_UUID,HttpStatus.OK);
+        return new ResponseEntity<>(testService.getWallets(WALLET_UUID), HttpStatus.OK);
+    }
+    @GetMapping("/new/{amount}")
+    public ResponseEntity<String> addWallet(@PathVariable int amount){
+
+        return new ResponseEntity<>(":"+amount +":" +testService.addWallet(amount), HttpStatus.OK);
     }
 }

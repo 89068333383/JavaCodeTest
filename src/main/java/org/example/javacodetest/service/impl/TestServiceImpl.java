@@ -19,8 +19,23 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public Optional<Wallet> getWallets(UUID id ) {
-        return walletRepository.findById(id);
+    public String getWallets(String id ) {
+        String res;
+        var result = walletRepository.findById(id).orElse(null);
+        if (result == null){
+            res = "Счет не существует";
+        }else res = result.toString();
+        return res;
+    }
+
+    @Override
+    public boolean addWallet(int amount) {
+        String noDashUUID = UUID.randomUUID().toString().replace("-", "");
+        Wallet wallet = new Wallet();
+        wallet.setUuid(noDashUUID);
+        wallet.setAmount(amount);
+        walletRepository.save(wallet);
+        return true;
     }
 
 
