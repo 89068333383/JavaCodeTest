@@ -1,5 +1,6 @@
 package org.example.javacodetest.service.impl;
 
+import org.example.javacodetest.model.QueryWallet;
 import org.example.javacodetest.model.Wallet;
 import org.example.javacodetest.repository.WalletRepository;
 import org.example.javacodetest.service.TestService;
@@ -38,5 +39,24 @@ public class TestServiceImpl implements TestService {
         return true;
     }
 
+    @Override
+    public String modifyWallet(QueryWallet queryWallet) {
+        String res;
+        var result = walletRepository.findById(queryWallet.getValletId()).orElse(null);
+        if (result == null){
+            res = "Счет не существует";
+        }else if (queryWallet.getOperationType().ordinal() == 1) {
+            if (queryWallet.getAmount()<=result.getAmount()){
+                result.setAmount(result.getAmount()-queryWallet.getAmount());
+                walletRepository.save(result);
+                res = "Операция выполнена";
+            }else res = "Не достаточно средств";
+        }else if (queryWallet.getOperationType().ordinal() == 0) {
+            result.setAmount(result.getAmount()+queryWallet.getAmount());
+            walletRepository.save(result);
+            res = "Операция выполнена";
+        } else res = "Не верный запрос";
+        return res;
+    }
 
 }
